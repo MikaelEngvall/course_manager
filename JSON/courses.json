@@ -1,0 +1,12 @@
+[ {
+  "id" : 1,
+  "courseName" : "Java for dummies",
+  "startDate" : "2023-09-25",
+  "weekDuration" : 12,
+  "students" : [ {
+    "id" : 1,
+    "name" : "Mikael Engvall",
+    "email" : "mikael@engvall.org",
+    "address" : "Vallgatan 22"
+  } ]
+} ]
