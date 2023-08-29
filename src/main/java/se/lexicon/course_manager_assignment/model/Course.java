@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Course implements Serializable {
@@ -60,27 +61,29 @@ public class Course implements Serializable {
     public boolean enrollStudent(Student student) {
         if (this.getStudents() != null) {
             boolean isStudentEnrolled = this.getStudents().stream()
-                    .anyMatch(existingStudent -> existingStudent.getId().equals(id));
+                    .anyMatch(existingStudent -> existingStudent.getId().equals(student.getId()));
             if (isStudentEnrolled) {
                 return false;
             }
             this.getStudents().add(student);
+        } else {
+            this.setStudents(new HashSet<>(Collections.singleton(student)));
         }
-        this.setStudents(Collections.singleton(student));
         return true;
     }
+
     public boolean unrollStudent(Student student) {
         if (this.getStudents() != null) {
             boolean isStudentEnrolled = this.getStudents().stream()
-                    .anyMatch(existingStudent -> existingStudent.getId().equals(id));
+                    .anyMatch(existingStudent -> existingStudent.getId().equals(student.getId()));
             if (isStudentEnrolled) {
-                this.getStudents().remove(student);  // todo : why is this not working?
+                this.getStudents().remove(student);
+                return true; // Return true after removing the student
             }
-            return false;
         }
-//        this.setStudents(Collections.singleton(student));
-        return true;
+        return false;
     }
+
 
     @Override
     public boolean equals(Object o) {

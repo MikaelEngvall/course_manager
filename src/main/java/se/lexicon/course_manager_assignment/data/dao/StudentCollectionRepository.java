@@ -30,10 +30,18 @@ public class StudentCollectionRepository implements StudentDao {
         return student;
     }
     @Override
-    public Student updateStudent(String name, String email, String address) { //todo How do I implement this one?
+    public Student updateStudent(String name, String email, String address) {
+        Student existingStudent = findByEmailIgnoreCase(email);
 
-        return null;
+        if (existingStudent != null) {
+            existingStudent.setName(name);
+            existingStudent.setEmail(email);
+            existingStudent.setAddress(address);
+        }
+
+        return existingStudent;
     }
+
 
     @Override
     public Student findByEmailIgnoreCase(String email) {
@@ -64,9 +72,17 @@ public class StudentCollectionRepository implements StudentDao {
     }
 
     @Override
-    public boolean removeStudent(Student student) { // todo When I remove a student he/she should be removed from the courses they enrolled in
-        return students.remove(student);
+    public boolean removeStudent(Student student) {
+        boolean removed = students.remove(student);
+
+//        if (removed) {
+//            // Remove the student from all courses they are enrolled in
+//            courses.forEach(course -> course.unrollStudent(student));
+//        }
+
+        return removed;
     }
+
 
     @Override
     public void clear() {

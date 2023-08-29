@@ -9,6 +9,7 @@ public class Student implements Serializable {
     private String email;
     private String address;
 
+
     // Constructors
     public Student() {
     }

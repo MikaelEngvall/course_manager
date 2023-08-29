@@ -11,6 +11,7 @@ import java.util.Collection;
 public interface CourseDao {
 
     Course createCourse(String courseName, LocalDate startDate, int weekDuration);
+    Course updateCourse(String courseName, LocalDate startDate, Integer weekDuration);
     Course findById(int id);
     Collection<Course> findByNameContains(String name);
     Collection<Course> findByDateBefore(LocalDate end);
@@ -19,5 +20,6 @@ public interface CourseDao {
     Collection<Course> findByStudentId(int studentId);
     boolean removeCourse(Course course);
     void clear();
+
 
 }

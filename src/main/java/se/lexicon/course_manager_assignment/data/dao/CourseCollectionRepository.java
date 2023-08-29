@@ -29,6 +29,30 @@ public class CourseCollectionRepository implements CourseDao{
         courses.add(course);
         return course;
     }
+    @Override
+    public boolean removeCourse(Course course) {
+        return courses.remove(course);
+    }
+
+    @Override
+    public Course updateCourse(String courseName, LocalDate startDate, Integer weekDuration) {
+        Course courseToUpdate = courses.stream()
+                .filter(course -> course.getCourseName().equalsIgnoreCase(courseName)) // Assuming course names are unique
+                .findFirst()
+                .orElse(null);
+
+        if (courseToUpdate != null) {
+            if (startDate != null) {
+                courseToUpdate.setStartDate(startDate);
+            }
+            if (weekDuration != null) {
+                courseToUpdate.setWeekDuration(weekDuration);
+            }
+        }
+
+        return courseToUpdate;
+    }
+
 
     @Override
     public Course findById(int id) { // Using stream to manipulate (by using filter i.ex) data to get the output i need
@@ -46,11 +70,6 @@ public class CourseCollectionRepository implements CourseDao{
     }
 
     @Override
-    // method name doesnt clearly state what is the expected output.
-    // I could expect it to return me only ongoing courses ie
-    // startDate + weekDuration is before endDate
-    // but by name in controller(by case not documentation) it
-    // states it expect that courseStartIsBefore endDate
     public Collection<Course> findByDateBefore(LocalDate end) {
         return courses.stream()
                 .filter(course -> course.getStartDate().isBefore(end))
@@ -77,10 +96,6 @@ public class CourseCollectionRepository implements CourseDao{
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean removeCourse(Course course) { // todo When I remove a course, it should be removed from the enrolled students aswell! How?
-        return courses.remove(course);
-    }
 
     @Override
     public void clear() {

@@ -37,9 +37,30 @@ public class CourseManager implements CourseService {
     }
 
     @Override
-    public CourseView update(UpdateCourseForm form) {
-        return null;
+    public CourseView update(UpdateCourseForm form) {  // Does the same as update in StudentManager but for courses instead
+        Course course = courseDao.findById(form.getId());
+
+        if (course != null) {
+            if (form.getCourseName() != null) {
+                course.setCourseName(form.getCourseName());
+            }
+            if (form.getStartDate() != null) {
+                course.setStartDate(form.getStartDate());
+            }
+            if (form.getWeekDuration() != null) {
+                course.setWeekDuration(form.getWeekDuration());
+            }
+
+            // Update the course in the repository
+            Course updatedCourse = courseDao.updateCourse(course.getCourseName(), course.getStartDate(), course.getWeekDuration());
+            if (updatedCourse != null) {
+                return converters.courseToCourseView(updatedCourse);
+            }
+        }
+
+        return null; // Return null if the course doesn't exist or update fails
     }
+
 
     @Override
     public List<CourseView> searchByCourseName(String courseName) {
@@ -54,7 +75,7 @@ public class CourseManager implements CourseService {
 
     @Override
     public List<CourseView> searchByDateAfter(LocalDate start) {
-        return converters.coursesToCourseViews(courseDao.findByDateBefore(start));
+        return converters.coursesToCourseViews(courseDao.findByDateAfter(start));
     }
 
     @Override
@@ -65,11 +86,21 @@ public class CourseManager implements CourseService {
     }
 
     @Override
-    public boolean removeStudentFromCourse(int courseId, int studentId) { // todo unrolling doesnt take student of the course, y?
-        Student student = studentDao.findById(studentId);
+    public boolean removeStudentFromCourse(int courseId, int studentId) {
         Course course = courseDao.findById(courseId);
-        return course.unrollStudent(student);
+        Student student = studentDao.findById(studentId);
+
+        if (course != null && student != null) {
+            boolean removed = course.unrollStudent(student);
+            if (removed) {
+                courseDao.updateCourse(course.getCourseName(), course.getStartDate(), course.getWeekDuration());
+            }
+            return removed;
+        }
+
+        return false; // Return false if the course or student doesn't exist
     }
+
 
     @Override
     public CourseView findById(int id) {
