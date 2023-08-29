@@ -74,11 +74,11 @@ public class Course implements Serializable {
             boolean isStudentEnrolled = this.getStudents().stream()
                     .anyMatch(existingStudent -> existingStudent.getId().equals(id));
             if (isStudentEnrolled) {
-                return false;
+                this.getStudents().remove(student);  // todo : why is this not working?
             }
-            this.getStudents().remove(student);
+            return false;
         }
-        this.setStudents(Collections.singleton(student));
+//        this.setStudents(Collections.singleton(student));
         return true;
     }
 

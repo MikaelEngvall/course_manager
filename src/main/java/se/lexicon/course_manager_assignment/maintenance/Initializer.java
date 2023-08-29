@@ -51,7 +51,7 @@ public class Initializer {
     @Bean
     @Primary
     public CourseCollectionRepository courseDaoCollection(){
-        return new CourseCollectionRepository(courses, new StudentCollectionRepository(students));
+        return new CourseCollectionRepository(courses, new StudentCollectionRepository(students));  // Added a little here
     }
 
     @Autowired

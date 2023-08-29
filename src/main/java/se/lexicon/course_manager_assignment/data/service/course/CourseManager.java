@@ -65,7 +65,7 @@ public class CourseManager implements CourseService {
     }
 
     @Override
-    public boolean removeStudentFromCourse(int courseId, int studentId) { // todo help
+    public boolean removeStudentFromCourse(int courseId, int studentId) { // todo unrolling doesnt take student of the course, y?
         Student student = studentDao.findById(studentId);
         Course course = courseDao.findById(courseId);
         return course.unrollStudent(student);

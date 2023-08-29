@@ -36,11 +36,26 @@ public class StudentManager implements StudentService {
     }
 
     @Override
-    public StudentView update(UpdateStudentForm form) { //todo Is this right?
-        Student student = studentDao.updateStudent(form.getName(), form.getEmail(), form.getAddress());
-        StudentView studentView = converters.studentToStudentView(student);
-        return studentView;
+    public StudentView update(UpdateStudentForm form) {
+        Student existingStudent = studentDao.findById(form.getId());
+
+        if (existingStudent != null) {   //Updates the name if student exists and name provided by the user isn't empty
+            if (form.getName() != null) {
+                existingStudent.setName(form.getName());
+            }
+            if (form.getEmail() != null) {  //Updates the email address
+                existingStudent.setEmail(form.getEmail());
+            }
+            if (form.getAddress() != null) { //Updates the address
+                existingStudent.setAddress(form.getAddress());
+            }
+            studentDao.updateStudent(existingStudent.getName(), existingStudent.getEmail(), existingStudent.getAddress()); // Creates the updated student
+            return converters.studentToStudentView(existingStudent);
+        }
+
+        return null; // Return null if the student with the given ID doesn't exist
     }
+
 
     @Override
     public StudentView findById(int id) {

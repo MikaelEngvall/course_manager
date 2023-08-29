@@ -42,7 +42,7 @@ public class CourseCollectionRepository implements CourseDao{
     public Collection<Course> findByNameContains(String name) {
         return courses.stream()
                 .filter(course -> course.getCourseName().contains(name))
-                .collect(Collectors.toList()); //
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CourseCollectionRepository implements CourseDao{
     }
 
     @Override
-    public boolean removeCourse(Course course) {
+    public boolean removeCourse(Course course) { // todo When I remove a course, it should be removed from the enrolled students aswell! How?
         return courses.remove(course);
     }
 

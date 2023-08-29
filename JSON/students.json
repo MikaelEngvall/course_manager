@@ -1,6 +1,11 @@
 [ {
-  "id" : 2,
+  "id" : 4,
   "name" : "Mikael Engvall",
   "email" : "mikael@engvall.org",
   "address" : "Vallgatan 22"
+}, {
+  "id" : 5,
+  "name" : "Anders Loren",
+  "email" : "a.l@gmail.com",
+  "address" : "Gatan 11"
 } ]

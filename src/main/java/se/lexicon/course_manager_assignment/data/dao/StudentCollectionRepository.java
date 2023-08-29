@@ -64,7 +64,7 @@ public class StudentCollectionRepository implements StudentDao {
     }
 
     @Override
-    public boolean removeStudent(Student student) {
+    public boolean removeStudent(Student student) { // todo When I remove a student he/she should be removed from the courses they enrolled in
         return students.remove(student);
     }
 
