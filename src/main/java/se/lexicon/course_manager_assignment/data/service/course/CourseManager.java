@@ -13,6 +13,7 @@ import se.lexicon.course_manager_assignment.model.Student;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -115,9 +116,15 @@ public class CourseManager implements CourseService {
     }
 
     @Override
-    public List<CourseView> findByStudentId(int studentId) { // todo Help
-        return null;
+    public List<CourseView> findByStudentId(int studentId) { // Create a course list for student with specific id
+        Student student = studentDao.findById(studentId);
+        if (student != null) {
+            Collection<Course> courses = courseDao.findByStudentId(studentId);
+            return converters.coursesToCourseViews(courses);
+        }
+        return Collections.emptyList(); // Return an empty list if the student doesn't exist
     }
+
 
     @Override
     public boolean deleteCourse(int id) {

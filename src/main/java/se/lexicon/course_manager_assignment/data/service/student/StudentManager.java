@@ -30,9 +30,9 @@ public class StudentManager implements StudentService {
 
     @Override
     public StudentView create(CreateStudentForm form) {
-        Student student = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
-        StudentView studentView = converters.studentToStudentView(student);
-        return studentView;
+        Student createdStudent = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
+        StudentView dtoResponse = converters.studentToStudentView(createdStudent);
+        return dtoResponse;
     }
 
     @Override
@@ -60,7 +60,8 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView findById(int id) {
         Student student = studentDao.findById(id);
-        return converters.studentToStudentView(student);
+        if (student != null) return converters.studentToStudentView(student);
+        return null;
     }
 
     @Override

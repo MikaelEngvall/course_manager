@@ -72,6 +72,7 @@ public class Course implements Serializable {
         return true;
     }
 
+
     public boolean unrollStudent(Student student) {
         if (this.getStudents() != null) {
             boolean isStudentEnrolled = this.getStudents().stream()
